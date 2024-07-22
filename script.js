@@ -65,6 +65,39 @@ function displayBusStops(busStops) {
     busStops.forEach(stop => {
         const li = document.createElement("li");
         li.textContent = `${stop.name} (Code: ${stop.code}, Distance: ${stop.distance.toFixed(2)} km)`;
+        li.onclick = () => fetchBusTimings(stop.code);
         busStopsList.appendChild(li);
     });
+}
+let counter =0;
+async function fetchBusTimings(busStopId) {
+    try {
+        url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
+        const response = await fetch(url);
+        console.log(url);
+        const data = await response.json();
+        displayBusTimings(data);
+    } catch (error) {
+        counter+=1;
+        document.getElementById("bustimings").innerHTML = "Failed to fetch bus timings."+counter;
+    }
+}
+
+function displayBusTimings(data) {
+    const busTimingsDiv = document.getElementById("bustimings");
+    busTimingsDiv.innerHTML = "";
+
+    if (data.services && data.services.length > 0) {
+        data.services.forEach(service => {
+            const serviceDiv = document.createElement("div");
+            serviceDiv.innerHTML = `<h3>Bus Service: ${service.no}</h3>`;
+            service.next.forEach((timing, index) => {
+                const arrival = new Date(timing.arrival * 1000).toLocaleTimeString();
+                serviceDiv.innerHTML += `<p>Arrival ${index + 1}: ${arrival}</p>`;
+            });
+            busTimingsDiv.appendChild(serviceDiv);
+        });
+    } else {
+        busTimingsDiv.innerHTML = "No bus timings available.";
+    }
 }
