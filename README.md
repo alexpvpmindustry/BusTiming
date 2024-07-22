@@ -1,6 +1,13 @@
 # BusTiming
 gets the bus timing for the closest busstops.
 
+# todo:
+
+(app works, now need a better UI,)
+
+- first make the list clickable.
+- make a refresh button. (to refresh the list of busstops)
+- make a back button and a refresh botton. (to refresh the bustiming and to go back to the prev list)
 
 # API:
 
