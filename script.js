@@ -63,10 +63,12 @@ function displayBusStops(busStops) {
     const busStopsList = document.getElementById("busstops");
     busStopsList.innerHTML = "";
     busStops.forEach(stop => {
-        const li = document.createElement("li");
-        li.textContent = `${stop.name} (Code: ${stop.code}, Distance: ${stop.distance.toFixed(2)} km)`;
+        const li = document.createElement("button");
+        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2)} km)`;
         li.onclick = () => fetchBusTimings(stop.code);
         busStopsList.appendChild(li);
+        const div = document.createElement("div");
+        busStopsList.appendChild(div);
     });
 }
 let counter =0;
