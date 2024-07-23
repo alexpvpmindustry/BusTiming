@@ -95,28 +95,35 @@ function displayBusTimings(data) {
     busTimingsDiv.innerHTML = "";
 
     if (data.services && data.services.length > 0) {
+        // Sort the bus services in ascending order by bus service number
+        data.services.sort((a, b) => {
+            const aNumber = parseInt(a.no.replace(/\D/g, ''), 10);
+            const bNumber = parseInt(b.no.replace(/\D/g, ''), 10);
+            return aNumber - bNumber;
+        });
+
         data.services.forEach(service => {
             const serviceDiv = document.createElement("div");
             serviceDiv.innerHTML = `<h3>Bus Service: ${service.no}</h3>`;
 
             if (service.next) {
                 const nextArrival = new Date(service.next.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next: ${nextArrival}, Load: ${service.next.load}, ${service.next.feature}, ${service.next.type}</p>`;
+                serviceDiv.innerHTML += `<p>Next: <b>${nextArrival}</b>, Load: ${service.next.load}, ${service.next.feature}, ${service.next.type}</p>`;
             }
 
             if (service.subsequent) {
                 const subsequentArrival = new Date(service.subsequent.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Subsequent: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</p>`;
+                serviceDiv.innerHTML += `<p>Next 2: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</p>`;
             }
 
             if (service.next2) {
                 const next2Arrival = new Date(service.next2.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next 2: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</p>`;
+                serviceDiv.innerHTML += `<p>Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</p>`;
             }
 
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next 3: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</p>`;
+                serviceDiv.innerHTML += `<p>Next 4: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</p>`;
             }
 
             busTimingsDiv.appendChild(serviceDiv);
@@ -125,3 +132,4 @@ function displayBusTimings(data) {
         busTimingsDiv.innerHTML = "No bus timings available.";
     }
 }
+
