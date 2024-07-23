@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Closest Bus Stops and Timings</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Closest Bus Stops and Timings</h1>
-    <button onclick="getLocation()">Get Closest Bus Stops</button>
-    <ul id="busstops"></ul>
-    <div id="bustimings"></div>
-
+    <div class="container">
+        <h1>Closest Bus Stops and Timings</h1>
+        <button class="btn" onclick="getLocation()">Get Closest Bus Stops</button>
+        <div id="loader" class="loader" style="display: none;"></div>
+        <ul id="busstops"></ul>
+        <div id="bustimings"></div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
