@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link rel="manifest" href="manifest.json" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Closest Bus Stops and Timings</title>
+    <title>Bus Timings of Closest Bus Stops</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Closest Bus Stops and Timings</h1>
-        <button class="btn" onclick="getLocation()">Get Closest Bus Stops</button>
+        <h1>Bus Timings of Closest Bus Stops</h1>
+        <button class="mainbtn" onclick="getLocation()">Get Closest Bus Stops</button>
         <ul id="busstops"></ul>
         <div id="loader" class="loader" style="display: none;"></div>
         <div id="bustimings"></div>
+        <div class="legendcontainer">
+            <h3>Legend</h3>
+            <p>SEA (seating available), SDA (standing available), LSD (limited standing)</p>
+            <p>WAB (wheel-chair accessible)</p>
+            <p>SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
+        </div>
     </div>
+    
     <script src="script.js"></script>
 </body>
+
 </html>

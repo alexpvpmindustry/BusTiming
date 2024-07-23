@@ -70,7 +70,7 @@ function displayBusStops(busStops) {
     busStopsList.innerHTML = "";
     busStops.forEach(stop => {
         const li = document.createElement("li");
-        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2)} km)`;
+        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2)*1000}m)`;
         li.onclick = () => fetchBusTimings(stop.code);
         busStopsList.appendChild(li);
     });
