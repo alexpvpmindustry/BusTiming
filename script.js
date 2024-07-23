@@ -104,26 +104,26 @@ function displayBusTimings(data) {
 
         data.services.forEach(service => {
             const serviceDiv = document.createElement("div");
-            serviceDiv.innerHTML = `<h3>Bus Service: ${service.no}</h3>`;
+            serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</h3>`;
 
             if (service.next) {
                 const nextArrival = new Date(service.next.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next: <b>${nextArrival}</b>, Load: ${service.next.load}, ${service.next.feature}, ${service.next.type}</p>`;
+                serviceDiv.innerHTML += `<div class="bustimingtext">Next: <b>${nextArrival}</b>, Load: ${service.next.load}, ${service.next.feature}, ${service.next.type}</div>`;
             }
 
             if (service.subsequent) {
                 const subsequentArrival = new Date(service.subsequent.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next 2: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</p>`;
+                serviceDiv.innerHTML += `<div class="bustimingtext">Next 2: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</div>`;
             }
 
             if (service.next2) {
                 const next2Arrival = new Date(service.next2.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</p>`;
+                serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</div>`;
             }
 
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<p>Next 4: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</p>`;
+                serviceDiv.innerHTML += `<div class="bustimingtext">Next 4: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</div>`;
             }
 
             busTimingsDiv.appendChild(serviceDiv);
