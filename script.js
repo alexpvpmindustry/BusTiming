@@ -1,6 +1,8 @@
 function getLocation() {
     if (navigator.geolocation) {
+        document.getElementById("busstops").innerHTML = "fetching geo data.";
         navigator.geolocation.getCurrentPosition(fetchBusStops, showError);
+        document.getElementById("busstops").innerHTML = "Geolocation updated.";
     } else {
         document.getElementById("busstops").innerHTML = "Geolocation is not supported by this browser.";
     }
