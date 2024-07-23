@@ -1,6 +1,6 @@
 function getLocation() {
     if (navigator.geolocation) {
-        document.getElementById("busstops").innerHTML = "";
+        //document.getElementById("busstops").innerHTML = "";
         document.getElementById("loader").style.display = "block";
         navigator.geolocation.getCurrentPosition(fetchBusStops, showError);
     } else {
