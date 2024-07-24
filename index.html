@@ -5,7 +5,8 @@
     <link rel="manifest" href="manifest.json" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="This webapp shows the most updated bus timing for the closest bus stops around. Make sure to turn on your GPS for better results.">
+    <meta name="description"
+        content="This webapp shows the most updated bus timing for the closest bus stops around. Make sure to turn on your GPS for better results.">
     <title>Bus Timings of Closest Bus Stops</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,23 +18,24 @@
         <ul id="busstops"></ul>
         <div id="loader" class="loader" style="display: none;"></div>
         <div class="boxp">
-                <span id="last-updated" class="last-updated" style="display: none;">
-            </span></div>
+            <span id="last-updated" class="last-updated" style="display: none;">
+            </span>
+        </div>
         <div id="bustimings"></div>
         <div class="legendcontainer">
-
-            <h3>Legend</h3>
-            <p>SEA (seating available), SDA (standing available), LSD (limited standing)</p>
-            <p>SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
+            <h3 class="legendtitle">Legend</h3>
+            <p style="opacity: 0.5;">SEA (seating available), SDA (standing available), LSD (limited standing)</p>
+            <p style="opacity: 0.5;">SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
         </div>
         <div id="favorites">
-            <h3>Favorite Bus Stop</h3>
+            <h3 class="favtitle">Favorite Bus Stop</h3>
             <ul id="favorite-list"></ul>
-            <p>Long press on the bus stop to save it as favourite.</p>
+            <p style="opacity: 0.3;">Long press on the bus stop to save it as favourite.</p>
         </div>
         <div class="boxp">
             <span id="last-updatedFav" class="last-updated" style="display: none;">
-        </span></div>
+            </span>
+        </div>
         <div id="loaderFav" class="loader" style="display: none;"></div>
         <div id="bustimingsFav"></div>
         <div id="favorite-toast" class="toast">Favorite saved</div>

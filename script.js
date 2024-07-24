@@ -244,32 +244,36 @@ function displayBusTimings(data, isFavorite) {
 
         data.services.forEach(service => {
             const serviceDiv = document.createElement("div");
+            serviceDiv.className = "bus-service";
             serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</div>`;
+
+            let timingsHTML = '';
 
             if (service.next) {
                 const nextArrival = new Date(service.next.time).getTime();
-                const textfront = "Next: <b>";
-                const textback = `</b>(${service.next.load},${service.next.type})`;
-                serviceDiv.innerHTML += `<div class="bustimingtext" id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</div>`;
+                const textfront = "<b>";
+                const textback = `</b> (${service.next.load}, ${service.next.type})`;
+                timingsHTML += `<span id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</span>`;
                 startCountdown(`next-${service.no}`, nextArrival, textfront, textback);
             }
 
             if (service.subsequent) {
                 const subsequentArrival = new Date(service.subsequent.time).getTime();
-                const textfront = "Next 2: ";
-                const textback = `(${service.subsequent.load},${service.subsequent.type})`;
-                serviceDiv.innerHTML += `<div class="bustimingtext" id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</div>`;
+                const textfront = "";
+                const textback = ` (${service.subsequent.load}, ${service.subsequent.type})`;
+                timingsHTML += ` | <span id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</span>`;
                 startCountdown(`subsequent-${service.no}`, subsequentArrival, textfront, textback);
             }
 
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).getTime();
-                const textfront = "Next 3: ";
-                const textback = `(${service.next3.load},${service.next3.type})`;
-                serviceDiv.innerHTML += `<div class="bustimingtext" id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</div>`;
+                const textfront = "";
+                const textback = ` (${service.next3.load}, ${service.next3.type})`;
+                timingsHTML += ` | <span id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</span>`;
                 startCountdown(`next3-${service.no}`, next3Arrival, textfront, textback);
             }
 
+            serviceDiv.innerHTML += `<div class="bustimingtext">${timingsHTML}</div>`;
             busTimingsDiv.appendChild(serviceDiv);
         });
     } else {

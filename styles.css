@@ -25,9 +25,18 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    margin-top: 100px;
+    margin-top: 50px;
 }
-
+.legendtitle {
+    opacity: 0.7; 
+    margin-top: 5px;
+    color: #000000;
+}
+.favtitle {
+    opacity: 0.8; 
+    margin-top: 5px;
+    color: #5271ff;
+}
 h1 {
     color: #5271ff;
 }
@@ -79,25 +88,45 @@ ul li.active {
     margin: 20px auto;
 }
 
-.bustimingtext {
+/* .bustimingtext {
     padding-top: 5px;
-}
+} */
 
-.busservicetext {
+/* .busservicetext {
     padding-top: 15px;
     font-size: x-large;
     font-weight: bold;
+} */
+
+.bus-service {
+    margin-bottom: 10px;
 }
+
+.bustimingtext {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    font-size: 16px;
+    gap: 10px; /* Add some spacing between timings */
+}
+
+.busservicetext {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
 
 .last-updated {
     border: 1px solid #5271ff;
     border-radius: 5px;
-    padding: auto;
-    width: auto;
+    padding: 3px;
 }
 
 .boxp {
     text-align: center;
+    margin-bottom:5px;
 }
 
 .boxs {
