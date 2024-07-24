@@ -202,14 +202,14 @@ function displayBusTimings(data,isFavorite) {
                 serviceDiv.innerHTML += `<div class="bustimingtext">Next 2: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</div>`;
             }
 
-            if (service.next2) {
-                const next2Arrival = new Date(service.next2.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</div>`;
-            }
+            //if (service.next2) {
+            //    const next2Arrival = new Date(service.next2.time).toLocaleTimeString();
+            //    serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</div>`;
+            //}
 
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<div class="bustimingtext">Next 4: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</div>`;
+                serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</div>`;
             }
 
             busTimingsDiv.appendChild(serviceDiv);
