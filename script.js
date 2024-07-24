@@ -14,7 +14,7 @@ function getLocation() {
 function showError(error) {
     document.getElementById("loader").style.display = "none";
     document.getElementById("loaderFav").style.display = "none";
-    switch(error.code) {
+    switch (error.code) {
         case error.PERMISSION_DENIED:
             document.getElementById("busstops").innerHTML = "User denied the request for Geolocation.";
             break;
@@ -63,8 +63,8 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     const dLat = (lat2 - lat1) * (Math.PI / 180);
     const dLon = (lon2 - lon1) * (Math.PI / 180);
     const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
 }
@@ -84,7 +84,7 @@ function displayBusStops(busStops) {
             }
             li.classList.add("active");
             activeElement = li;
-            fetchBusTimings(stop.code,false);
+            fetchBusTimings(stop.code, false);
             updateLastUpdated();
         };
         li.oncontextmenu = (e) => {
@@ -116,7 +116,7 @@ function displayFavorite() {
     if (favoriteBusStop) {
         const li = document.createElement("li");
         li.textContent = `${favoriteBusStop.name} (${favoriteBusStop.code})`;
-        li.onclick = () => fetchBusTimings(favoriteBusStop.code,true);
+        li.onclick = () => fetchBusTimings(favoriteBusStop.code, true);
         favoriteList.appendChild(li);
     }
 }
@@ -142,25 +142,25 @@ function updateLastUpdatedFav() {
     lastUpdatedDiv.style.display = "inline";
 }
 
-async function fetchBusTimings(busStopId,isFavorite) {
+async function fetchBusTimings(busStopId, isFavorite) {
     try {
-        if(isFavorite){
+        if (isFavorite) {
             document.getElementById("loaderFav").style.display = "block";
-        }else{
+        } else {
             document.getElementById("loader").style.display = "block";
         }
         const url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
         const response = await fetch(url);
         const data = await response.json();
-        if(isFavorite){
+        if (isFavorite) {
             document.getElementById("loaderFav").style.display = "none";
-        }else{
+        } else {
             document.getElementById("loader").style.display = "none";
         }
-        displayBusTimings(data,isFavorite);
-        if(isFavorite){
+        displayBusTimings(data, isFavorite);
+        if (isFavorite) {
             updateLastUpdatedFav();
-        }else{
+        } else {
             updateLastUpdated();
         }
     } catch (error) {
@@ -170,14 +170,68 @@ async function fetchBusTimings(busStopId,isFavorite) {
     }
 }
 
-function displayBusTimings(data,isFavorite) {
+function displayBusTimings2(data, isFavorite) {
     let busTimingsDiv;
-    if (isFavorite){
+    if (isFavorite) {
         busTimingsDiv = document.getElementById("bustimingsFav");
-    }else{
+    } else {
         busTimingsDiv = document.getElementById("bustimings");
     }
-    
+
+    busTimingsDiv.innerHTML = "";
+
+    if (data.services && data.services.length > 0) {
+        // Sort the bus services in ascending order by bus service number
+        data.services.sort((a, b) => {
+            const aNumber = parseInt(a.no.replace(/\D/g, ''), 10);
+            const bNumber = parseInt(b.no.replace(/\D/g, ''), 10);
+            return aNumber - bNumber;
+        });
+
+        data.services.forEach(service => {
+            const serviceDiv = document.createElement("div");
+            serviceDiv.innerHTML = `<div class="busservicetext">Bus:${service.no}</div>`;
+            serviceDiv.innerHTML += `<div class="bustimingtext">`
+            if (service.next || service.subsequent || service.next3) {
+                if (service.next) {
+                    const nextArrival = new Date(service.next.time).toLocaleTimeString();
+                    serviceDiv.innerHTML += `<b>${nextArrival}</b>,${service.next.load},${service.next.type}.`;
+                }
+
+                if (service.subsequent) {
+                    const subsequentArrival = new Date(service.subsequent.time).toLocaleTimeString();
+                    serviceDiv.innerHTML += ` ${subsequentArrival},${service.subsequent.load},${service.subsequent.type}.`;
+                }
+
+                if (service.next3) {
+                    const next3Arrival = new Date(service.next3.time).toLocaleTimeString();
+                    serviceDiv.innerHTML += ` ${next3Arrival},${service.next3.load},${service.next3.type}.`;
+                }
+            }
+            busTimingsDiv.appendChild(serviceDiv);
+        });
+    } else {
+        busTimingsDiv.innerHTML = "No bus timings available.";
+    }
+}
+
+let activeTimers = [];
+
+function clearTimers() {
+    activeTimers.forEach(timer => clearInterval(timer));
+    activeTimers = [];
+}
+
+function displayBusTimings(data, isFavorite) {
+    clearTimers(); // Clear existing timers
+
+    let busTimingsDiv;
+    if (isFavorite) {
+        busTimingsDiv = document.getElementById("bustimingsFav");
+    } else {
+        busTimingsDiv = document.getElementById("bustimings");
+    }
+
     busTimingsDiv.innerHTML = "";
 
     if (data.services && data.services.length > 0) {
@@ -193,23 +247,27 @@ function displayBusTimings(data,isFavorite) {
             serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</div>`;
 
             if (service.next) {
-                const nextArrival = new Date(service.next.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<div class="bustimingtext">Next: <b>${nextArrival}</b>, Load: ${service.next.load}, ${service.next.feature}, ${service.next.type}</div>`;
+                const nextArrival = new Date(service.next.time).getTime();
+                const textfront = "Next: <b>";
+                const textback = `</b>(${service.next.load},${service.next.type})`;
+                serviceDiv.innerHTML += `<div class="bustimingtext" id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</div>`;
+                startCountdown(`next-${service.no}`, nextArrival, textfront, textback);
             }
 
             if (service.subsequent) {
-                const subsequentArrival = new Date(service.subsequent.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<div class="bustimingtext">Next 2: ${subsequentArrival}, Load: ${service.subsequent.load}, ${service.subsequent.feature}, ${service.subsequent.type}</div>`;
+                const subsequentArrival = new Date(service.subsequent.time).getTime();
+                const textfront = "Next 2: ";
+                const textback = `(${service.subsequent.load},${service.subsequent.type})`;
+                serviceDiv.innerHTML += `<div class="bustimingtext" id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</div>`;
+                startCountdown(`subsequent-${service.no}`, subsequentArrival, textfront, textback);
             }
 
-            //if (service.next2) {
-            //    const next2Arrival = new Date(service.next2.time).toLocaleTimeString();
-            //    serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next2Arrival}, Load: ${service.next2.load}, ${service.next2.feature}, ${service.next2.type}</div>`;
-            //}
-
             if (service.next3) {
-                const next3Arrival = new Date(service.next3.time).toLocaleTimeString();
-                serviceDiv.innerHTML += `<div class="bustimingtext">Next 3: ${next3Arrival}, Load: ${service.next3.load}, ${service.next3.feature}, ${service.next3.type}</div>`;
+                const next3Arrival = new Date(service.next3.time).getTime();
+                const textfront = "Next 3: ";
+                const textback = `(${service.next3.load},${service.next3.type})`;
+                serviceDiv.innerHTML += `<div class="bustimingtext" id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</div>`;
+                startCountdown(`next3-${service.no}`, next3Arrival, textfront, textback);
             }
 
             busTimingsDiv.appendChild(serviceDiv);
@@ -217,4 +275,37 @@ function displayBusTimings(data,isFavorite) {
     } else {
         busTimingsDiv.innerHTML = "No bus timings available.";
     }
+}
+
+function formatTimeLeft(targetTime) {
+    const now = new Date().getTime();
+    const timeDiff = (targetTime - now) / 1000; // Time difference in seconds
+
+    if (timeDiff < -600) { // If time is less than -10 minutes
+        return "NA";
+    }
+
+    const minutes = Math.floor(timeDiff / 60);
+    const seconds = Math.abs(Math.floor(timeDiff % 60));
+    return `${minutes}m${seconds}s`;
+}
+
+function startCountdown(elementId, targetTime, textfront, textback) {
+    const countdownInterval = setInterval(() => {
+        const element = document.getElementById(elementId);
+        if (element) {
+            const now = new Date().getTime();
+            const timeDiff = (targetTime - now) / 1000;
+
+            if (timeDiff < -600) { // If time is less than -10 minutes, stop the countdown
+                element.innerHTML = "NA";
+                clearInterval(countdownInterval);
+            } else {
+                element.innerHTML = textfront + formatTimeLeft(targetTime) + textback;
+            }
+        } else {
+            clearInterval(countdownInterval);
+        }
+    }, 1000); // Update every second
+    activeTimers.push(countdownInterval); // Add to active timers
 }
