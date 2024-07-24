@@ -135,7 +135,7 @@ function updateLastUpdated() {
     lastUpdatedDiv.style.display = "inline";
 }
 function updateLastUpdatedFav() {
-    const lastUpdatedDiv = document.getElementById("last-updated");
+    const lastUpdatedDiv = document.getElementById("last-updatedFav");
     const now = new Date();
     lastUpdatedDiv.textContent = `Last updated: ${now.toLocaleString()}`;
     lastUpdatedDiv.style.display = "inline";
