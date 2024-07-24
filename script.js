@@ -83,7 +83,7 @@ function displayBusStops(busStops) {
             }
             li.classList.add("active");
             activeElement = li;
-            fetchBusTimings(stop.code);
+            fetchBusTimings(stop.code,false);
             updateLastUpdated();
         };
         li.oncontextmenu = (e) => {
@@ -115,7 +115,7 @@ function displayFavorite() {
     if (favoriteBusStop) {
         const li = document.createElement("li");
         li.textContent = `${favoriteBusStop.name} (${favoriteBusStop.code})`;
-        li.onclick = () => fetchBusTimings(favoriteBusStop.code);
+        li.onclick = () => fetchBusTimings(favoriteBusStop.code,true);
         favoriteList.appendChild(li);
     }
 }
@@ -135,22 +135,29 @@ function updateLastUpdated() {
     lastUpdatedDiv.style.display = "inline";
 }
 
-async function fetchBusTimings(busStopId) {
+async function fetchBusTimings(busStopId,isFavorite) {
     try {
         document.getElementById("loader").style.display = "block";
         const url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
         const response = await fetch(url);
         const data = await response.json();
         document.getElementById("loader").style.display = "none";
-        displayBusTimings(data);
+        displayBusTimings(data,isFavorite);
+        updateLastUpdated();
     } catch (error) {
         document.getElementById("loader").style.display = "none";
         document.getElementById("bustimings").innerHTML = "Failed to fetch bus timings.";
     }
 }
 
-function displayBusTimings(data) {
-    const busTimingsDiv = document.getElementById("bustimings");
+function displayBusTimings(data,isFavorite) {
+    let busTimingsDiv;
+    if (isFavorite){
+        busTimingsDiv = document.getElementById("bustimings");
+    }else{
+        busTimingsDiv = document.getElementById("bustimingsFav");
+    }
+    
     busTimingsDiv.innerHTML = "";
 
     if (data.services && data.services.length > 0) {
