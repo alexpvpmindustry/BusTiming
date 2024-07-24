@@ -65,16 +65,33 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
+let activeElement = null;
+
 function displayBusStops(busStops) {
     const busStopsList = document.getElementById("busstops");
     busStopsList.innerHTML = "";
     busStops.forEach(stop => {
         const li = document.createElement("li");
-        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2)*1000}m)`;
-        li.onclick = () => fetchBusTimings(stop.code);
+        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2) * 1000}m)`;
+        li.onclick = () => {
+            if (activeElement) {
+                activeElement.classList.remove("active");
+            }
+            li.classList.add("active");
+            activeElement = li;
+            fetchBusTimings(stop.code);
+            updateLastUpdated();
+        };
         busStopsList.appendChild(li);
     });
 }
+
+function updateLastUpdated() {
+    const lastUpdatedDiv = document.getElementById("last-updated");
+    const now = new Date();
+    lastUpdatedDiv.textContent = `Last updated: ${now.toLocaleString()}`;
+}
+
 
 async function fetchBusTimings(busStopId) {
     try {
