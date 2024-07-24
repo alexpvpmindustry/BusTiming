@@ -228,8 +228,12 @@ function displayBusTimings(data, isFavorite) {
     let busTimingsDiv;
     if (isFavorite) {
         busTimingsDiv = document.getElementById("bustimingsFav");
+        document.getElementById("bustimings").innerHTML="";
+        document.getElementById("last-updated").style.display="none";
     } else {
         busTimingsDiv = document.getElementById("bustimings");
+        document.getElementById("bustimingsFav").innerHTML="";
+        document.getElementById("last-updatedFav").style.display="none";
     }
 
     busTimingsDiv.innerHTML = "";
