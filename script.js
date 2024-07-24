@@ -54,7 +54,7 @@ async function fetchBusStops(position) {
         displayBusStops(sortedBusStops.slice(0, 10));
     } catch (error) {
         document.getElementById("loader").style.display = "none";
-        document.getElementById("busstops").innerHTML = "Failed to fetch bus stops data.";
+        document.getElementById("busstops").innerHTML = "<b>Failed to fetch bus stops data.<\b>";
     }
 }
 
@@ -77,7 +77,7 @@ function displayBusStops(busStops) {
     busStopsList.innerHTML = "";
     busStops.forEach(stop => {
         const li = document.createElement("li");
-        li.textContent = `${stop.name} (${stop.code}, Dist: ${(stop.distance * 1000).toFixed(2)}m)`;
+        li.textContent = `${stop.name} (${stop.code}, Dist: ${(stop.distance * 1000).toFixed(0)}m)`;
         li.onclick = () => {
             if (activeElement) {
                 activeElement.classList.remove("active");
@@ -166,7 +166,7 @@ async function fetchBusTimings(busStopId, isFavorite) {
     } catch (error) {
         document.getElementById("loader").style.display = "none";
         document.getElementById("loaderFav").style.display = "none";
-        document.getElementById("bustimings").innerHTML = "Failed to fetch bus timings.";
+        document.getElementById("bustimings").innerHTML = "<b>Failed to fetch bus timings.</b>";
     }
 }
 
@@ -252,7 +252,8 @@ function displayBusTimings(data, isFavorite) {
             if (service.next) {
                 const nextArrival = new Date(service.next.time).getTime();
                 const textfront = "<b>";
-                const textback = `</b> (${service.next.load},${service.next.type})`;
+                const load = formatSeat(service.next.load);
+                const textback = `</b> <span style="opacity:0.8">(${load},${service.next.type})</span>`;
                 timingsHTML += `<span id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</span>`;
                 startCountdown(`next-${service.no}`, nextArrival, textfront, textback);
             }
@@ -260,7 +261,8 @@ function displayBusTimings(data, isFavorite) {
             if (service.subsequent) {
                 const subsequentArrival = new Date(service.subsequent.time).getTime();
                 const textfront = "";
-                const textback = ` (${service.subsequent.load},${service.subsequent.type})`;
+                const load = formatSeat(service.subsequent.load);
+                const textback = ` <span style="opacity:0.8">(${load},${service.subsequent.type})</span>`;
                 timingsHTML += ` | <span id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</span>`;
                 startCountdown(`subsequent-${service.no}`, subsequentArrival, textfront, textback);
             }
@@ -268,7 +270,8 @@ function displayBusTimings(data, isFavorite) {
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).getTime();
                 const textfront = "";
-                const textback = ` (${service.next3.load},${service.next3.type})`;
+                const load = formatSeat(service.next3.load);
+                const textback = ` <span style="opacity:0.8">(${load},${service.next3.type})</span>`;
                 timingsHTML += ` | <span id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</span>`;
                 startCountdown(`next3-${service.no}`, next3Arrival, textfront, textback);
             }
@@ -280,7 +283,18 @@ function displayBusTimings(data, isFavorite) {
         busTimingsDiv.innerHTML = "No bus timings available.";
     }
 }
-
+function formatSeat(seattype){
+    if (seattype=="SEA"){
+        return `<span style="color:green">${seattype}</span>`;
+    }
+    if (seattype=="SDA"){
+        return `<span style="color:orange">${seattype}</span>`;
+    }
+    if (seattype=="LSD"){
+        return `<span style="color:red">${seattype}</span>`;
+    }
+    return seattype;
+}
 function formatTimeLeft(targetTime) {
     const now = new Date().getTime();
     const timeDiff = (targetTime - now) / 1000; // Time difference in seconds
@@ -288,9 +302,15 @@ function formatTimeLeft(targetTime) {
     if (timeDiff < -600) { // If time is less than -10 minutes
         return "NA";
     }
-
     const minutes = Math.floor(timeDiff / 60);
     const seconds = Math.abs(Math.floor(timeDiff % 60));
+    if(minutes <= -1){
+        const min2 = minutes+1;
+        if(minutes==-1){
+            return `-${min2}m${seconds}s`;
+        }
+        return `${min2}m${seconds}s`;
+    }
     return `${minutes}m${seconds}s`;
 }
 
