@@ -252,7 +252,7 @@ function displayBusTimings(data, isFavorite) {
             if (service.next) {
                 const nextArrival = new Date(service.next.time).getTime();
                 const textfront = "<b>";
-                const textback = `</b> (${service.next.load}, ${service.next.type})`;
+                const textback = `</b> (${service.next.load},${service.next.type})`;
                 timingsHTML += `<span id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</span>`;
                 startCountdown(`next-${service.no}`, nextArrival, textfront, textback);
             }
@@ -260,7 +260,7 @@ function displayBusTimings(data, isFavorite) {
             if (service.subsequent) {
                 const subsequentArrival = new Date(service.subsequent.time).getTime();
                 const textfront = "";
-                const textback = ` (${service.subsequent.load}, ${service.subsequent.type})`;
+                const textback = ` (${service.subsequent.load},${service.subsequent.type})`;
                 timingsHTML += ` | <span id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</span>`;
                 startCountdown(`subsequent-${service.no}`, subsequentArrival, textfront, textback);
             }
@@ -268,7 +268,7 @@ function displayBusTimings(data, isFavorite) {
             if (service.next3) {
                 const next3Arrival = new Date(service.next3.time).getTime();
                 const textfront = "";
-                const textback = ` (${service.next3.load}, ${service.next3.type})`;
+                const textback = ` (${service.next3.load},${service.next3.type})`;
                 timingsHTML += ` | <span id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</span>`;
                 startCountdown(`next3-${service.no}`, next3Arrival, textfront, textback);
             }
