@@ -66,13 +66,15 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 }
 
 let activeElement = null;
+let favoriteBusStop = null;
+let favoriteBusService = null;
 
 function displayBusStops(busStops) {
     const busStopsList = document.getElementById("busstops");
     busStopsList.innerHTML = "";
     busStops.forEach(stop => {
         const li = document.createElement("li");
-        li.textContent = `${stop.name} (${stop.code}, Dist: ${stop.distance.toFixed(2) * 1000}m)`;
+        li.textContent = `${stop.name} (${stop.code}, Dist: ${(stop.distance * 1000).toFixed(2)}m)`;
         li.onclick = () => {
             if (activeElement) {
                 activeElement.classList.remove("active");
@@ -82,8 +84,39 @@ function displayBusStops(busStops) {
             fetchBusTimings(stop.code);
             updateLastUpdated();
         };
+        li.oncontextmenu = (e) => {
+            e.preventDefault();
+            saveFavorite(stop.code, stop.name);
+        };
         busStopsList.appendChild(li);
     });
+}
+
+function saveFavorite(code, name) {
+    favoriteBusStop = { code, name };
+    displayFavorite();
+    showFavoriteToast();
+}
+
+function showFavoriteToast() {
+    const toast = document.getElementById("favorite-toast");
+    toast.className = "toast show";
+    setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+    }, 3000); // Hide the toast after 3 seconds
+}
+
+
+
+function displayFavorite() {
+    const favoriteList = document.getElementById("favorite-list");
+    favoriteList.innerHTML = "";
+    if (favoriteBusStop) {
+        const li = document.createElement("li");
+        li.textContent = `${favoriteBusStop.name} (${favoriteBusStop.code})`;
+        li.onclick = () => fetchBusTimings(favoriteBusStop.code);
+        favoriteList.appendChild(li);
+    }
 }
 
 function updateLastUpdated() {
@@ -93,11 +126,10 @@ function updateLastUpdated() {
     lastUpdatedDiv.style.display = "inline";
 }
 
-
 async function fetchBusTimings(busStopId) {
     try {
         document.getElementById("loader").style.display = "block";
-        url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
+        const url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
         const response = await fetch(url);
         const data = await response.json();
         document.getElementById("loader").style.display = "none";
@@ -122,7 +154,7 @@ function displayBusTimings(data) {
 
         data.services.forEach(service => {
             const serviceDiv = document.createElement("div");
-            serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</h3>`;
+            serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</div>`;
 
             if (service.next) {
                 const nextArrival = new Date(service.next.time).toLocaleTimeString();
@@ -150,4 +182,3 @@ function displayBusTimings(data) {
         busTimingsDiv.innerHTML = "No bus timings available.";
     }
 }
-
