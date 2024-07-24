@@ -1,6 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+    loadFavorite();
+});
+
 function getLocation() {
     if (navigator.geolocation) {
-        //document.getElementById("busstops").innerHTML = "";
         document.getElementById("loader").style.display = "block";
         navigator.geolocation.getCurrentPosition(fetchBusStops, showError);
     } else {
@@ -67,7 +70,6 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
 
 let activeElement = null;
 let favoriteBusStop = null;
-let favoriteBusService = null;
 
 function displayBusStops(busStops) {
     const busStopsList = document.getElementById("busstops");
@@ -94,19 +96,18 @@ function displayBusStops(busStops) {
 
 function saveFavorite(code, name) {
     favoriteBusStop = { code, name };
+    localStorage.setItem('favoriteBusStop', JSON.stringify(favoriteBusStop));
     displayFavorite();
     showFavoriteToast();
 }
 
-function showFavoriteToast() {
-    const toast = document.getElementById("favorite-toast");
-    toast.className = "toast show";
-    setTimeout(() => {
-        toast.className = toast.className.replace("show", "");
-    }, 3000); // Hide the toast after 3 seconds
+function loadFavorite() {
+    const savedFavorite = localStorage.getItem('favoriteBusStop');
+    if (savedFavorite) {
+        favoriteBusStop = JSON.parse(savedFavorite);
+        displayFavorite();
+    }
 }
-
-
 
 function displayFavorite() {
     const favoriteList = document.getElementById("favorite-list");
@@ -117,6 +118,14 @@ function displayFavorite() {
         li.onclick = () => fetchBusTimings(favoriteBusStop.code);
         favoriteList.appendChild(li);
     }
+}
+
+function showFavoriteToast() {
+    const toast = document.getElementById("favorite-toast");
+    toast.className = "toast show";
+    setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+    }, 3000); // Hide the toast after 3 seconds
 }
 
 function updateLastUpdated() {
