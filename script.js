@@ -134,6 +134,12 @@ function updateLastUpdated() {
     lastUpdatedDiv.textContent = `Last updated: ${now.toLocaleString()}`;
     lastUpdatedDiv.style.display = "inline";
 }
+function updateLastUpdatedFav() {
+    const lastUpdatedDiv = document.getElementById("last-updated");
+    const now = new Date();
+    lastUpdatedDiv.textContent = `Last updated: ${now.toLocaleString()}`;
+    lastUpdatedDiv.style.display = "inline";
+}
 
 async function fetchBusTimings(busStopId,isFavorite) {
     try {
@@ -143,7 +149,11 @@ async function fetchBusTimings(busStopId,isFavorite) {
         const data = await response.json();
         document.getElementById("loader").style.display = "none";
         displayBusTimings(data,isFavorite);
-        updateLastUpdated();
+        if(isFavorite){
+            updateLastUpdatedFav();
+        }else{
+            updateLastUpdated();
+        }
     } catch (error) {
         document.getElementById("loader").style.display = "none";
         document.getElementById("bustimings").innerHTML = "Failed to fetch bus timings.";
