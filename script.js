@@ -90,6 +90,7 @@ function updateLastUpdated() {
     const lastUpdatedDiv = document.getElementById("last-updated");
     const now = new Date();
     lastUpdatedDiv.textContent = `Last updated: ${now.toLocaleString()}`;
+    lastUpdatedDiv.style.display = "inline";
 }
 
 

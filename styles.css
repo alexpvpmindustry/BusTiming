@@ -79,22 +79,40 @@ ul li.active {
     margin: 20px auto;
 }
 
-.bustimingtext{
+.bustimingtext {
     padding-top: 5px;
 }
 
-.busservicetext{
+.busservicetext {
     padding-top: 15px;
     font-size: x-large;
     font-weight: bold;
 }
 
-.last-updated{
+.last-updated {
     border: 1px solid #5271ff;
-    border-radius: 15px;
+    border-radius: 5px;
+    padding: auto;
+    width: auto;
+}
+
+.boxp {
+    text-align: center;
+}
+
+.boxs {
+    font-size: 16px;
+    font-weight: bold;
+    width: auto;
+    border: 1px solid #999;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

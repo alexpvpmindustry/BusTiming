@@ -15,7 +15,9 @@
         <button class="mainbtn" onclick="getLocation()">Get Closest Bus Stops</button>
         <ul id="busstops"></ul>
         <div id="loader" class="loader" style="display: none;"></div>
-        <div id="last-updated" class="last-updated"></div> 
+        <div class="boxp">
+                <span id="last-updated" class="last-updated" style="display: none;">
+            </span></div>
         <div id="bustimings"></div>
         <div class="legendcontainer">
             <h3>Legend</h3>
@@ -24,7 +26,7 @@
             <p>SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
         </div>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 
