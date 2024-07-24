@@ -13,6 +13,7 @@ function getLocation() {
 
 function showError(error) {
     document.getElementById("loader").style.display = "none";
+    document.getElementById("loaderFav").style.display = "none";
     switch(error.code) {
         case error.PERMISSION_DENIED:
             document.getElementById("busstops").innerHTML = "User denied the request for Geolocation.";
@@ -143,11 +144,19 @@ function updateLastUpdatedFav() {
 
 async function fetchBusTimings(busStopId,isFavorite) {
     try {
-        document.getElementById("loader").style.display = "block";
+        if(isFavorite){
+            document.getElementById("loaderFav").style.display = "block";
+        }else{
+            document.getElementById("loader").style.display = "block";
+        }
         const url = `https://arrivelah2.busrouter.sg/?id=${busStopId}`;
         const response = await fetch(url);
         const data = await response.json();
-        document.getElementById("loader").style.display = "none";
+        if(isFavorite){
+            document.getElementById("loaderFav").style.display = "none";
+        }else{
+            document.getElementById("loader").style.display = "none";
+        }
         displayBusTimings(data,isFavorite);
         if(isFavorite){
             updateLastUpdatedFav();
@@ -156,6 +165,7 @@ async function fetchBusTimings(busStopId,isFavorite) {
         }
     } catch (error) {
         document.getElementById("loader").style.display = "none";
+        document.getElementById("loaderFav").style.display = "none";
         document.getElementById("bustimings").innerHTML = "Failed to fetch bus timings.";
     }
 }
