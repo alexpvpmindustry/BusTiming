@@ -60,6 +60,8 @@ ul li {
     border: 1px solid #e4e8ff;
     border-radius: 15px;
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 ul li.active {
