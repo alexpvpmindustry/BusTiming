@@ -89,6 +89,11 @@ ul li.active {
     font-weight: bold;
 }
 
+.last-updated{
+    border: 1px solid #5271ff;
+    border-radius: 15px;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
