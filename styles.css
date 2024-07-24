@@ -124,11 +124,11 @@ ul li.active {
 .toast {
     visibility: hidden;
     min-width: 250px;
-    background-color: #333;
-    color: #fff;
+    background-color: #5271ff94;
+    color: #2b3e94;
     text-align: center;
-    border-radius: 2px;
-    padding: 16px;
+    border-radius: 3px;
+    padding: 10px;
     position: fixed;
     z-index: 1;
     left: 50%;
