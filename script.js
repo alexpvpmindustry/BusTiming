@@ -153,9 +153,9 @@ async function fetchBusTimings(busStopId,isFavorite) {
 function displayBusTimings(data,isFavorite) {
     let busTimingsDiv;
     if (isFavorite){
-        busTimingsDiv = document.getElementById("bustimings");
-    }else{
         busTimingsDiv = document.getElementById("bustimingsFav");
+    }else{
+        busTimingsDiv = document.getElementById("bustimings");
     }
     
     busTimingsDiv.innerHTML = "";
