@@ -143,10 +143,27 @@ function displayFavorites() {
         };
 
         li.appendChild(removeButton);
-        li.onclick = () => fetchBusTimings(stop.code, true);
+        li.onclick = () => {
+            setActiveFavorite(li);
+            fetchBusTimings(stop.code, true);
+        };
         favoriteList.appendChild(li);
     });
 }
+
+// Function to set the active favorite and apply a border
+function setActiveFavorite(selectedLi) {
+    const listItems = document.querySelectorAll("#favorite-list li");
+
+    // Remove border from all list items
+    listItems.forEach((li) => {
+        li.style.border = "none";
+    });
+
+    // Add border to the clicked list item
+    selectedLi.style.border = "2px solid #5271ff"; // You can change the color or style as needed
+}
+
 
 function showFavoriteToast() {
     const toast = document.getElementById("favorite-toast");
