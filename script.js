@@ -96,29 +96,56 @@ function displayBusStops(busStops) {
 }
 
 function saveFavorite(code, name) {
-    favoriteBusStop = { code, name };
-    localStorage.setItem('favoriteBusStop', JSON.stringify(favoriteBusStop));
-    displayFavorite();
-    showFavoriteToast();
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteBusStops')) || [];
+    
+    // Check if the bus stop is already saved
+    const isAlreadyFavorite = savedFavorites.some(fav => fav.code === code);
+    if (!isAlreadyFavorite) {
+        favoriteBusStop = { code, name };
+        savedFavorites.push(favoriteBusStop);
+        localStorage.setItem('favoriteBusStops', JSON.stringify(savedFavorites));
+        displayFavorites();
+        showFavoriteToast();
+    }
+}
+function removeFavorite(index) {
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteBusStops')) || [];
+    savedFavorites.splice(index, 1); // Remove the bus stop at the specified index
+    localStorage.setItem('favoriteBusStops', JSON.stringify(savedFavorites));
+    displayFavorites();
 }
 
-function loadFavorite() {
-    const savedFavorite = localStorage.getItem('favoriteBusStop');
-    if (savedFavorite) {
-        favoriteBusStop = JSON.parse(savedFavorite);
-        displayFavorite();
+function loadFavorites() {
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteBusStops')) || [];
+    if (savedFavorites.length > 0) {
+        displayFavorites();
     }
 }
 
-function displayFavorite() {
+function displayFavorites() {
     const favoriteList = document.getElementById("favorite-list");
     favoriteList.innerHTML = "";
-    if (favoriteBusStop) {
+
+    const savedFavorites = JSON.parse(localStorage.getItem('favoriteBusStops')) || [];
+    const lastThreeFavorites = savedFavorites.slice(-3); // Get the last three saved bus stops
+
+    lastThreeFavorites.forEach((stop, index) => {
         const li = document.createElement("li");
-        li.textContent = `${favoriteBusStop.name} (${favoriteBusStop.code})`;
-        li.onclick = () => fetchBusTimings(favoriteBusStop.code, true);
+        li.textContent = `${stop.name} (${stop.code})`;
+        
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "x"; // Button to remove favorite
+        removeButton.style.marginLeft = "10px";
+        removeButton.onclick = () => {
+            if (confirm(`Are you sure you want to remove ${stop.name} from favorites?`)) {
+                removeFavorite(index); // Remove favorite with confirmation
+            }
+        };
+
+        li.appendChild(removeButton);
+        li.onclick = () => fetchBusTimings(stop.code, true);
         favoriteList.appendChild(li);
-    }
+    });
 }
 
 function showFavoriteToast() {
