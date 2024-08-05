@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    loadFavorite();
+    loadFavorites();
 });
 
 function getLocation() {
