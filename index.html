@@ -56,34 +56,42 @@
 
 <body>
     <div class="container">
-        <h1>Bus Timings of Closest Bus Stops</h1>
-        <button class="mainbtn" onclick="getLocation()">Get Closest Bus Stops</button>
-        <ul id="busstops"></ul>
-        <div id="loader" class="loader" style="display: none;"></div>
-        <div class="boxp">
-            <span id="last-updated" class="last-updated" style="display: none;">
-            </span>
-        </div>
-        <button id="installBtn" class="installbtn" style="display:none;">Install App</button>
-        <div id="bustimings"></div>
-        <div class="legendcontainer">
-            <h3 class="legendtitle">Legend</h3>
-            <p style="opacity: 0.6;"><span style="color:green;">SEA</span> (seating available), <span
-                    style="color:orange;">SDA</span> (standing available), <span style="color:red;">LSD</span> (limited
-                standing)</p>
-            <p style="opacity: 0.6;">SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
-        </div>
-        <div id="favorites">
-            <h3 class="favtitle">Favorite Bus Stop</h3>
-            <ul id="favorite-list"></ul>
-            <p style="opacity: 0.3;">Long press on the bus stop to save it as favourite.</p>
-        </div>
-        <div class="boxp">
-            <span id="last-updatedFav" class="last-updated" style="display: none;">
-            </span>
-        </div>
-        <div id="loaderFav" class="loader" style="display: none;"></div>
-        <div id="bustimingsFav"></div>
+    <div class="header-top">
+        <h1>Bus Timings</h1>
+        <button class="info-btn" id="infoBtn" type="button" aria-label="Open legend">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"></path>
+            </svg>
+        </button>
+    </div>
+    <button class="mainbtn" onclick="getLocation()">Get Closest Bus Stops</button>
+    <ul id="busstops"></ul>
+    <div id="loader" class="loader" style="display: none;"></div>
+    <div class="boxp">
+        <span id="last-updated" class="last-updated" style="display: none;">
+        </span>
+    </div>
+    <button id="installBtn" class="installbtn" style="display:none;">Install App</button>
+    <div id="bustimings" class="bus-cards"></div>
+    <div class="legendcontainer" id="legendContainer" style="display:none;">
+        <h3 class="legendtitle">Legend</h3>
+        <p style="opacity: 0.6;"><span style="color:green;">SEA</span> (seating available), <span
+                style="color:orange;">SDA</span> (standing available), <span style="color:red;">LSD</span> (limited
+            standing)</p>
+        <p style="opacity: 0.6;">SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
+    </div>
+    <div id="favorites">
+        <h3 class="favtitle">Favorite Bus Stop</h3>
+        <ul id="favorite-list"></ul>
+        <p style="opacity: 0.3;">Long press on the bus stop to save it as favourite.</p>
+    </div>
+    <div class="boxp">
+        <span id="last-updatedFav" class="last-updated" style="display: none;">
+        </span>
+    </div>
+    <div id="loaderFav" class="loader" style="display: none;"></div>
+    <div id="bustimingsFav" class="bus-cards"></div>
         <div id="favorite-toast" class="toast">Favorite saved</div>
         <div>
             <span style="font-size: 70%;">Powered by <a

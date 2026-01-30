@@ -1,94 +1,94 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
 }
 
 .container {
-    text-align: center;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
 }
 
 .legendcontainer {
-    text-align: center;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin-top: 50px;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin-top: 50px;
 }
 
 .legendtitle {
-    opacity: 0.7;
-    margin-top: 5px;
-    color: #000000;
+  opacity: 0.7;
+  margin-top: 5px;
+  color: #000000;
 }
 
 .favtitle {
-    opacity: 0.8;
-    margin-top: 5px;
-    color: #5271ff;
+  opacity: 0.8;
+  margin-top: 5px;
+  color: #5271ff;
 }
 
 h1 {
-    color: #5271ff;
+  color: #5271ff;
 }
 
 .mainbtn {
-    background-color: #5271ff;
-    color: white;
-    border: none;
-    padding: 20px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 24px;
-    margin-top: 30px;
+  background-color: #5271ff;
+  color: white;
+  border: none;
+  padding: 20px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 24px;
+  margin-top: 30px;
 }
 
 .mainbtn:hover {
-    background-color: #405bbf;
+  background-color: #405bbf;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
 }
 
 ul li {
-    background-color: #f9f9f9;
-    margin: 2px 5px;
-    padding: 5px;
-    border: 1px solid #e4e8ff;
-    border-radius: 15px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
+  background-color: #f9f9f9;
+  margin: 2px 5px;
+  padding: 5px;
+  border: 1px solid #e4e8ff;
+  border-radius: 15px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 ul li.active {
-    border: 1px solid #5271ff;
-    border-width: 4px;
+  border: 1px solid #5271ff;
+  border-width: 4px;
 }
 
 .loader {
-    border: 16px solid #f3f3f3;
-    border-top: 16px solid #5271ff;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 0.8s cubic-bezier(0.57, 0.12, 0.32, 0.88) infinite;
-    margin: 20px auto;
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #5271ff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 0.8s cubic-bezier(0.57, 0.12, 0.32, 0.88) infinite;
+  margin: 20px auto;
 }
 
 /* .bustimingtext {
@@ -101,150 +101,313 @@ ul li.active {
     font-weight: bold;
 } */
 .installbtn {
-    background-color: #5271ff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 18px;
-    margin-top: 20px;
+  background-color: #5271ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 20px;
 }
 
 .installbtn:hover {
-    background-color: #405bbf;
+  background-color: #405bbf;
 }
 
 .bus-service {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .bustimingtext {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 5px;
-    font-size: 16px;
-    gap: 10px;
-    /* Add some spacing between timings */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5px;
+  font-size: 16px;
+  gap: 10px;
+  /* Add some spacing between timings */
 }
 
 .busservicetext {
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
 }
 
 
 .last-updated {
-    border: 1px solid #5271ff;
-    border-radius: 5px;
-    padding: 3px;
+  border: 1px solid #5271ff;
+  border-radius: 5px;
+  padding: 3px;
 }
 
 .boxp {
-    text-align: center;
-    margin-bottom: 5px;
+  text-align: center;
+  margin-bottom: 5px;
 }
 
 .boxs {
-    font-size: 16px;
-    font-weight: bold;
-    width: auto;
-    border: 1px solid #999;
+  font-size: 16px;
+  font-weight: bold;
+  width: auto;
+  border: 1px solid #999;
 }
 
 #favorites {
-    margin-top: 20px;
-    text-align: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
 #favorite-list li {
-    background-color: #f9f9f9;
-    margin: 2px 5px;
-    padding: 5px;
-    border: 1px solid #e4e8ff;
-    border-radius: 15px;
-    cursor: pointer;
+  background-color: #f9f9f9;
+  margin: 2px 5px;
+  padding: 5px;
+  border: 1px solid #e4e8ff;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
 .toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #5271ff94;
-    color: #2b3e94;
-    text-align: center;
-    border-radius: 3px;
-    padding: 10px;
-    position: fixed;
-    z-index: 1;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    font-size: 17px;
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #5271ff94;
+  color: #2b3e94;
+  text-align: center;
+  border-radius: 3px;
+  padding: 10px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  font-size: 17px;
 }
 
 .toast.show {
-    visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 @keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
 
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-        transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 footer {
-    background-color: #00274D;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
+  background-color: #00274D;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
 }
 
 footer ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 footer ul li {
-    display: inline;
-    margin: 0 10px;
+  display: inline;
+  margin: 0 10px;
 }
 
 footer ul li a {
-    color: #fff;
-    text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 footer ul li a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
+}
+
+/* Imported styles from index2.html */
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.info-btn {
+  background: none;
+  border: none;
+  color: #5271ff;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-btn:hover {
+  background-color: #e4e8ff;
+}
+
+.info-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.bus-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.bus-card {
+  background: #fdfdfd;
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  border: 1px solid #f0f0f0;
+}
+
+.bus-card-inner {
+  display: flex;
+  align-items: center;
+}
+
+.bus-number {
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+.bus-number-badge {
+  background-color: #5271ff;
+  color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.8rem;
+  text-align: center;
+  min-width: 80px;
+}
+
+.bus-number-badge div {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.arrivals {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.arrival-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-direction: column;
+  /* Stack time and icons vertically for better fit on small screens usually, but index2 was row. Let's stick to index2 which was row generally but let's check. */
+}
+
+/* Wait, in index2.html it was row. */
+.arrival-item {
+  flex-direction: row;
+  gap: 0.75rem;
+}
+
+/* Responsive adjustment for small screens if needed */
+@media (max-width: 480px) {
+  .arrival-item {
+    flex-direction: column;
+    gap: 0.2rem;
+    text-align: center;
+  }
+
+  .bus-card-inner {
+    flex-direction: column;
+    /* Stack number and arrivals */
+  }
+
+  .bus-number {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .arrivals {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.arrival-time {
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.arrival-time.large {
+  font-size: 1.25rem;
+}
+
+.arrival-time.medium {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.arrival-time.small {
+  font-size: 0.875rem;
+  font-weight: normal;
+  color: #6b7280;
+}
+
+.arrival-time.safe {
+  color: #16a34a;
+}
+
+.arrival-time.warning {
+  color: #ca8a04;
+}
+
+.arrival-time.urgent {
+  color: #dc2626;
+}
+
+.capacity-icon {
+  font-size: 1rem;
+  margin-right: 4px;
+}
+
+.bus-type-badge {
+  background-color: #e5e7eb;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #333;
 }

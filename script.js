@@ -266,6 +266,30 @@ function clearTimers() {
     activeTimers = [];
 }
 
+
+// Add event listener for info button
+document.getElementById("infoBtn")?.addEventListener("click", () => {
+    const legend = document.getElementById("legendContainer");
+    if (legend.style.display === "none") {
+        legend.style.display = "block";
+    } else {
+        legend.style.display = "none";
+    }
+});
+
+function getCapacityIcon(load) {
+    if (load === "SEA") return "🪑";
+    if (load === "SDA") return "🧍";
+    if (load === "LSD") return "🧍🧍";
+    return "";
+}
+
+function getUrgencyClass(diffMins) {
+    if (diffMins <= 2) return "urgent";
+    if (diffMins <= 5) return "warning";
+    return "safe";
+}
+
 function displayBusTimings(data, isFavorite) {
     clearTimers(); // Clear existing timers
 
@@ -291,93 +315,89 @@ function displayBusTimings(data, isFavorite) {
         });
 
         data.services.forEach(service => {
-            const serviceDiv = document.createElement("div");
-            serviceDiv.className = "bus-service";
-            serviceDiv.innerHTML = `<div class="busservicetext">Bus Service: ${service.no}</div>`;
+            const card = document.createElement("div");
+            card.className = "bus-card";
 
-            let timingsHTML = '';
+            var arrivals = [];
+            if (service.next) arrivals.push({ ...service.next, idSuffix: 'next' });
+            if (service.subsequent) arrivals.push({ ...service.subsequent, idSuffix: 'sub' });
+            if (service.next3) arrivals.push({ ...service.next3, idSuffix: 'next3' });
 
-            if (service.next) {
-                const nextArrival = new Date(service.next.time).getTime();
-                const textfront = "<b>";
-                const load = formatSeat(service.next.load);
-                const textback = `</b> <span style="opacity:0.8">(${load},${service.next.type})</span>`;
-                timingsHTML += `<span id="next-${service.no}">${textfront}${formatTimeLeft(nextArrival)}${textback}</span>`;
-                startCountdown(`next-${service.no}`, nextArrival, textfront, textback);
-            }
+            var arrivalsHTML = "";
+            arrivals.forEach((arrival, index) => {
+                var sizeClass = (index === 0) ? 'large' : ((index === 1) ? 'medium' : 'small');
+                var targetTime = new Date(arrival.time).getTime();
+                var now = new Date().getTime();
+                var diffMins = (targetTime - now) / 60000;
+                var urgency = getUrgencyClass(diffMins);
+                var timeId = `time-${arrival.idSuffix}-${service.no}`;
 
-            if (service.subsequent) {
-                const subsequentArrival = new Date(service.subsequent.time).getTime();
-                const textfront = "";
-                const load = formatSeat(service.subsequent.load);
-                const textback = ` <span style="opacity:0.8">(${load},${service.subsequent.type})</span>`;
-                timingsHTML += ` | <span id="subsequent-${service.no}">${textfront}${formatTimeLeft(subsequentArrival)}${textback}</span>`;
-                startCountdown(`subsequent-${service.no}`, subsequentArrival, textfront, textback);
-            }
+                arrivalsHTML += '<div class="arrival-item">';
+                arrivalsHTML += `<span id="${timeId}" class="arrival-time ${sizeClass} ${urgency}">${formatTimeLeft(targetTime)}</span>`;
+                // Group capacity and type
+                arrivalsHTML += '<div style="display: flex; align-items: center;">';
+                arrivalsHTML += `<span class="capacity-icon" aria-hidden="true">${getCapacityIcon(arrival.load)}</span>`;
+                arrivalsHTML += `<span class="bus-type-badge">${arrival.type}</span>`;
+                arrivalsHTML += '</div></div>';
 
-            if (service.next3) {
-                const next3Arrival = new Date(service.next3.time).getTime();
-                const textfront = "";
-                const load = formatSeat(service.next3.load);
-                const textback = ` <span style="opacity:0.8">(${load},${service.next3.type})</span>`;
-                timingsHTML += ` | <span id="next3-${service.no}">${textfront}${formatTimeLeft(next3Arrival)}${textback}</span>`;
-                startCountdown(`next3-${service.no}`, next3Arrival, textfront, textback);
-            }
+                startCountdown(timeId, targetTime, sizeClass);
+            });
 
-            serviceDiv.innerHTML += `<div class="bustimingtext">${timingsHTML}</div>`;
-            busTimingsDiv.appendChild(serviceDiv);
+            card.innerHTML = 
+                '<div class="bus-card-inner">' +
+                '<div class="bus-number">' +
+                '<div class="bus-number-badge">' +
+                '<div>' + service.no + '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="arrivals">' +
+                arrivalsHTML +
+                '</div>' +
+                '</div>';
+
+            busTimingsDiv.appendChild(card);
         });
     } else {
         busTimingsDiv.innerHTML = "No bus timings available.";
     }
 }
-function formatSeat(seattype){
-    if (seattype=="SEA"){
-        return `<span style="color:green">${seattype}</span>`;
-    }
-    if (seattype=="SDA"){
-        return `<span style="color:orange">${seattype}</span>`;
-    }
-    if (seattype=="LSD"){
-        return `<span style="color:red">${seattype}</span>`;
-    }
-    return seattype;
-}
+
 function formatTimeLeft(targetTime) {
     const now = new Date().getTime();
     const timeDiff = (targetTime - now) / 1000; // Time difference in seconds
 
-    if (timeDiff < -600) { // If time is less than -10 minutes
-        return "NA";
+    if (timeDiff < -60) { // If time is less than -1 minute (allow some buffer)
+        return "Arr";
     }
+    
+    if (timeDiff <= 0) return "Arr";
+
     const minutes = Math.floor(timeDiff / 60);
-    const seconds = Math.abs(Math.floor(timeDiff % 60));
-    if(minutes <= -1){
-        const min2 = minutes+1;
-        if(minutes==-1){
-            return `-${min2}m${seconds}s`;
-        }
-        return `${min2}m${seconds}s`;
-    }
-    return `${minutes}m${seconds}s`;
+    const seconds = Math.floor(timeDiff % 60);
+    
+    if (minutes === 0) return `${seconds}s`;
+    return `${minutes}m ${seconds}s`;
 }
 
-function startCountdown(elementId, targetTime, textfront, textback) {
+function startCountdown(elementId, targetTime, sizeClass) {
     const countdownInterval = setInterval(() => {
         const element = document.getElementById(elementId);
         if (element) {
             const now = new Date().getTime();
             const timeDiff = (targetTime - now) / 1000;
+            const diffMins = timeDiff / 60;
 
-            if (timeDiff < -600) { // If time is less than -10 minutes, stop the countdown
-                element.innerHTML = "NA";
+            if (timeDiff < -60) { 
+                element.innerHTML = "Arr";
                 clearInterval(countdownInterval);
             } else {
-                element.innerHTML = textfront + formatTimeLeft(targetTime) + textback;
+                element.textContent = formatTimeLeft(targetTime);
+                // Update urgency class dynamically
+                element.className = `arrival-time ${sizeClass} ${getUrgencyClass(diffMins)}`;
             }
         } else {
             clearInterval(countdownInterval);
         }
     }, 1000); // Update every second
-    activeTimers.push(countdownInterval); // Add to active timers
+    activeTimers.push(countdownInterval); 
 }

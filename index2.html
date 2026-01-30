@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bus Stop App - Improved UI</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #f9fafb;
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+
+    .header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .header-top h1 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .info-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+
+    .info-btn:hover { background-color: #1d4ed8; }
+
+    .favorites {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .favorite-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1d4ed8;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .favorite-item span { font-weight: 500; }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 0.25rem;
+      transition: background-color 0.2s;
+    }
+
+    .remove-btn:hover { background-color: #1e40af; }
+
+    .legend-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 50;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .legend-overlay.show { display: flex; }
+
+    .legend-content {
+      background: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      max-width: 28rem;
+      width: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    }
+
+    .legend-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .legend-header h2 {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+
+    .legend-section { margin-bottom: 1rem; }
+    .legend-section p { margin-bottom: 0.5rem; }
+    .legend-section .title { font-weight: 600; margin-bottom: 0.5rem; }
+
+    .badge {
+      background-color: #e5e7eb;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      display: inline-block;
+    }
+
+    .bus-cards {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .bus-card {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      padding: 1rem;
+    }
+
+    .bus-card-inner { display: flex; }
+
+    .bus-number { flex-shrink: 0; margin-right: 1.5rem; }
+
+    .bus-number-badge {
+      background-color: #2563eb;
+      color: white;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      text-align: center;
+    }
+
+    .bus-number-badge div { font-size: 1.875rem; font-weight: bold; }
+
+    .arrivals {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .arrival-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .arrival-time { font-weight: bold; }
+    .arrival-time.large { font-size: 1.5rem; }
+    .arrival-time.medium { font-size: 1.125rem; font-weight: 500; }
+    .arrival-time.small { font-size: 1rem; font-weight: normal; color: #6b7280; }
+
+    .arrival-time.safe { color: #16a34a; }
+    .arrival-time.warning { color: #ca8a04; }
+    .arrival-time.urgent { color: #dc2626; }
+
+    .capacity-icon { font-size: 1.25rem; }
+
+    .bus-type-badge {
+      background-color: #e5e7eb;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6b7280;
+      padding: 0 1rem;
+      margin-top: 1rem;
+    }
+
+    .footer p { margin-bottom: 0.25rem; }
+    .footer a { color: #2563eb; text-decoration: underline; }
+
+    svg { width: 24px; height: 24px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-top">
+      <h1>Bus Arrivals</h1>
+      <button class="info-btn" id="infoBtn" type="button" aria-label="Open legend">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-4m0-4h.01"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="favorites" id="favorites">
+      <div class="favorite-item" data-id="16091">
+        <span>Opp SIT Dover (16091)</span>
+        <button class="remove-btn" type="button" data-remove-fav="16091" aria-label="Remove favorite 16091">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px;height:18px;" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="favorite-item" data-id="18079">
+        <span>Opp NUH (18079)</span>
+        <button class="remove-btn" type="button" data-remove-fav="18079" aria-label="Remove favorite 18079">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:18px;height:18px;" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-overlay" id="legendOverlay" role="dialog" aria-modal="true" aria-labelledby="legendTitle">
+    <div class="legend-content">
+      <div class="legend-header">
+        <h2 id="legendTitle">Legend</h2>
+        <button class="close-btn" id="closeBtn" type="button" aria-label="Close legend">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="legend-section">
+        <p class="title">Capacity:</p>
+        <p>🪑 Seating available</p>
+        <p>🧍 Standing available</p>
+        <p>🧍🧍 Limited standing (crowded)</p>
+      </div>
+
+      <div class="legend-section">
+        <p class="title">Bus Type:</p>
+        <p><span class="badge">SD</span> Single Deck</p>
+        <p><span class="badge">DD</span> Double Deck</p>
+        <p><span class="badge">BD</span> Bendy</p>
+      </div>
+
+      <div class="legend-section">
+        <p class="title">Timing Colors:</p>
+        <p style="color:#16a34a;">Green: 5+ minutes away</p>
+        <p style="color:#ca8a04;">Yellow: 2-5 minutes away</p>
+        <p style="color:#dc2626;">Red: Arriving or under 2 minutes</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bus-cards" id="busCards"></div>
+
+  <div class="footer">
+    <p>Last updated: 1/29/2026, 6:48:27 PM</p>
+    <p>Powered by <a href="https://highimpactjournal.org" target="_blank" rel="noopener noreferrer">highimpactjournal.org</a></p>
+  </div>
+
+  <script>
+    "use strict";
+
+    var busData = [
+      {
+        service: "97",
+        arrivals: [
+          { time: "4m 19s", capacity: "seat", type: "SD", urgency: "safe" },
+          { time: "6m 14s", capacity: "seat", type: "SD", urgency: "safe" },
+          { time: "8m 11s", capacity: "seat", type: "DD", urgency: "safe" }
+        ]
+      },
+      {
+        service: "197",
+        arrivals: [
+          { time: "Arriving", capacity: "seat", type: "SD", urgency: "urgent" },
+          { time: "6m 0s", capacity: "seat", type: "SD", urgency: "safe" },
+          { time: "14m 57s", capacity: "seat", type: "SD", urgency: "safe" }
+        ]
+      },
+      {
+        service: "198",
+        arrivals: [
+          { time: "1m 33s", capacity: "seat", type: "DD", urgency: "warning" },
+          { time: "8m 39s", capacity: "seat", type: "DD", urgency: "safe" },
+          { time: "9m 34s", capacity: "seat", type: "DD", urgency: "safe" }
+        ]
+      },
+      {
+        service: "963",
+        arrivals: [
+          { time: "6m 20s", capacity: "seat", type: "DD", urgency: "safe" },
+          { time: "20m 51s", capacity: "seat", type: "DD", urgency: "safe" }
+        ]
+      }
+    ];
+
+    function getCapacityIcon(capacity) {
+      if (capacity === "seat") return "🪑";
+      if (capacity === "stand") return "🧍";
+      if (capacity === "crowded") return "🧍🧍";
+      return "";
+    }
+
+    function getSizeClass(index) {
+      if (index === 0) return "large";
+      if (index === 1) return "medium";
+      return "small";
+    }
+
+    function renderBusCards() {
+      var container = document.getElementById("busCards");
+      container.innerHTML = "";
+
+      for (var i = 0; i < busData.length; i++) {
+        var bus = busData[i];
+        var card = document.createElement("div");
+        card.className = "bus-card";
+
+        var arrivalsHTML = "";
+        for (var j = 0; j < bus.arrivals.length; j++) {
+          var arrival = bus.arrivals[j];
+          arrivalsHTML += '<div class="arrival-item">';
+          arrivalsHTML +=
+            '<span class="arrival-time ' +
+            getSizeClass(j) +
+            " " +
+            arrival.urgency +
+            '">';
+          arrivalsHTML += arrival.time;
+          arrivalsHTML += "</span>";
+          // Group capacity and type to remove gap between them
+          arrivalsHTML += '<div style="display: flex; align-items: center;">';
+          arrivalsHTML +=
+            '<span class="capacity-icon" aria-hidden="true">' +
+            getCapacityIcon(arrival.capacity) +
+            "</span>";
+          arrivalsHTML += '<span class="bus-type-badge">' + arrival.type + "</span>";
+          arrivalsHTML += "</div>";
+          arrivalsHTML += "</div>";
+        }
+
+        card.innerHTML =
+          '<div class="bus-card-inner">' +
+          '<div class="bus-number">' +
+          '<div class="bus-number-badge">' +
+          "<div>" +
+          bus.service +
+          "</div>" +
+          "</div>" +
+          "</div>" +
+          '<div class="arrivals">' +
+          arrivalsHTML +
+          "</div>" +
+          "</div>";
+
+        container.appendChild(card);
+      }
+    }
+
+    var infoBtn = document.getElementById("infoBtn");
+    var closeBtn = document.getElementById("closeBtn");
+    var legendOverlay = document.getElementById("legendOverlay");
+    var favorites = document.getElementById("favorites");
+
+    function openLegend() {
+      legendOverlay.classList.add("show");
+    }
+
+    function closeLegend() {
+      legendOverlay.classList.remove("show");
+    }
+
+    infoBtn.addEventListener("click", openLegend);
+    closeBtn.addEventListener("click", closeLegend);
+
+    legendOverlay.addEventListener("click", function (e) {
+      if (e.target === legendOverlay) closeLegend();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeLegend();
+    });
+
+    favorites.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-remove-fav]");
+      if (!btn) return;
+      var id = btn.getAttribute("data-remove-fav");
+      var favorite = favorites.querySelector('[data-id="' + id + '"]');
+      if (favorite) favorite.remove();
+    });
+
+    renderBusCards();
+  </script>
+</body>
+</html>
