@@ -359,7 +359,7 @@ function displayBusTimings(data, isFavorite) {
         arrivalsHTML += '<div class="arrival-item">';
         arrivalsHTML += `<span id="${timeId}" class="arrival-time ${sizeClass} ${urgency}">${formatTimeLeft(targetTime)}</span>`;
         // Group capacity and type
-        arrivalsHTML += '<div style="display: flex; align-items: center;">';
+        arrivalsHTML += '<div class="capacity-type-group">';
         arrivalsHTML += `<span class="capacity-icon" aria-hidden="true">${getCapacityIcon(arrival.load)}</span>`;
         arrivalsHTML += `<span class="bus-type-badge">${arrival.type}</span>`;
         arrivalsHTML += '</div></div>';
