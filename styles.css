@@ -321,11 +321,12 @@ footer ul li a:hover {
 
 .arrivals {
   flex: 1;
-  display: flex;
-  flex-direction: row;
-  gap: 2.5rem;
-  justify-content: flex-start;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  /* align-items: center; */
+  justify-items: right;
+  /* Center items in their grid cells */
 }
 
 .arrival-item {
@@ -355,7 +356,10 @@ footer ul li a:hover {
   }
 
   .arrivals {
-    width: 10%;
+    /* display: flex; */
+    /* justify-content: space-between; */
+    width: 100%;
+    justify-items: center;
   }
 }
 
