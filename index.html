@@ -74,12 +74,40 @@
     </div>
     <button id="installBtn" class="installbtn" style="display:none;">Install App</button>
     <div id="bustimings" class="bus-cards"></div>
-    <div class="legendcontainer" id="legendContainer" style="display:none;">
-        <h3 class="legendtitle">Legend</h3>
-        <p style="opacity: 0.6;"><span style="color:green;">SEA</span> (seating available), <span
-                style="color:orange;">SDA</span> (standing available), <span style="color:red;">LSD</span> (limited
-            standing)</p>
-        <p style="opacity: 0.6;">SD (for Single Deck), DD (for Double Deck), BD (for Bendy)</p>
+    <div class="legend-overlay" id="legendOverlay" role="dialog" aria-modal="true" aria-labelledby="legendTitle">
+        <div class="legend-content">
+            <div class="legend-header">
+                <h2 id="legendTitle">Legend</h2>
+                <button class="close-btn" id="closeBtn" type="button" aria-label="Close legend">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="legend-section">
+                <p class="title">Capacity:</p>
+                <p>🪑 Seating available</p>
+                <p>🧍 Standing available</p>
+                <p>🧍🧍 Limited standing (crowded)</p>
+            </div>
+
+            <div class="legend-section">
+                <p class="title">Bus Type:</p>
+                <p><span class="badge">SD</span> Single Deck</p>
+                <p><span class="badge">DD</span> Double Deck</p>
+                <p><span class="badge">BD</span> Bendy</p>
+            </div>
+
+            <div class="legend-section">
+                <p class="title">Timing Colors:</p>
+                <p style="color:#16a34a;">Green: 5+ minutes away</p>
+                <p style="color:#ca8a04;">Yellow: 2-5 minutes away</p>
+                <p style="color:#dc2626;">Red: Arriving or under 2 minutes</p>
+            </div>
+        </div>
     </div>
     <div id="favorites">
         <h3 class="favtitle">Favorite Bus Stop</h3>

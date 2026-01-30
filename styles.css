@@ -253,7 +253,7 @@ footer ul li a:hover {
 
 .header-top {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
 }
@@ -323,7 +323,7 @@ footer ul li a:hover {
   flex: 1;
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 2.5rem;
   justify-content: flex-start;
   align-items: center;
 }
@@ -409,5 +409,95 @@ footer ul li a:hover {
   border-radius: 0.25rem;
   font-size: 0.7rem;
   font-weight: 500;
+  color: #333;
+}
+
+/* Legend Popup Styles from index2.html */
+.legend-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  /* High z-index to sit on top of everything */
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.legend-overlay.show {
+  display: flex;
+}
+
+.legend-content {
+  background: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  max-width: 28rem;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  /* Reset text align */
+}
+
+.legend-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.legend-header h2 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.close-btn svg {
+  width: 24px;
+  height: 24px;
+  color: #6b7280;
+}
+
+.close-btn:hover svg {
+  color: #111;
+}
+
+.legend-section {
+  margin-bottom: 1rem;
+  color: #4b5563;
+}
+
+.legend-section p {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-section .title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #111;
+  display: block;
+}
+
+.badge {
+  background-color: #e5e7eb;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  display: inline-block;
   color: #333;
 }
