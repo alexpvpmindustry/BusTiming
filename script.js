@@ -75,7 +75,9 @@ async function fetchBusStops(position, autoSelect = false) {
   const longitude = position.coords.longitude;
 
   try {
-    const response = await fetch('https://data.busrouter.sg/v1/stops.min.json');
+    // comment this if needed
+    //const response = await fetch('https://data.busrouter.sg/v1/stops.min.json');
+    const response = await fetch('data/stops.min.json');
     const busStops = await response.json();
     document.getElementById("loader").style.display = "none";
     document.getElementById("busstops").innerHTML = "Geolocation updated.";
