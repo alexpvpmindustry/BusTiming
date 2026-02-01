@@ -33,7 +33,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Existing loadFavorites call
+
   loadFavorites();
+
+  if (navigator.geolocation) {
+    document.getElementById("loader").style.display = "block";
+    navigator.geolocation.getCurrentPosition((pos) => fetchBusStops(pos, true), showError);
+  }
 });
 
 function getLocation() {
@@ -64,7 +70,7 @@ function showError(error) {
   }
 }
 
-async function fetchBusStops(position) {
+async function fetchBusStops(position, autoSelect = false) {
   const latitude = position.coords.latitude;
   const longitude = position.coords.longitude;
 
@@ -86,9 +92,20 @@ async function fetchBusStops(position) {
     })).sort((a, b) => a.distance - b.distance);
 
     displayBusStops(sortedBusStops.slice(0, 10));
+
+    if (autoSelect && sortedBusStops.length > 0) {
+      const closest = sortedBusStops[0];
+      fetchBusTimings(closest.code, false);
+      const firstLi = document.getElementById("busstops").firstElementChild;
+      if (firstLi) {
+        firstLi.classList.add("active");
+        activeElement = firstLi;
+      }
+      updateLastUpdated();
+    }
   } catch (error) {
     document.getElementById("loader").style.display = "none";
-    document.getElementById("busstops").innerHTML = "<b>Failed to fetch bus stops data.<\b>";
+    document.getElementById("busstops").innerHTML = "<b>Failed to fetch bus stops data.</b>";
   }
 }
 
