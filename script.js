@@ -333,6 +333,14 @@ function getUrgencyClass(diffMins) {
   return "safe";
 }
 
+
+function getBusTypeIcon(type) {
+  if (type === "SD") return "icons/bus1_50px.png";
+  if (type === "DD") return "icons/bus2_50px.png";
+  if (type === "BD") return "icons/bus3_50px.png";
+  return "";
+}
+
 function displayBusTimings(data, isFavorite) {
   clearTimers(); // Clear existing timers
 
@@ -380,7 +388,13 @@ function displayBusTimings(data, isFavorite) {
         // Group capacity and type
         arrivalsHTML += '<div class="capacity-type-group">';
         arrivalsHTML += `<span class="capacity-icon" aria-hidden="true">${getCapacityIcon(arrival.load)}</span>`;
-        arrivalsHTML += `<span class="bus-type-badge">${arrival.type}</span>`;
+        // Use icon instead of text badge
+        const iconSrc = getBusTypeIcon(arrival.type);
+        if (iconSrc) {
+          arrivalsHTML += `<img src="${iconSrc}" alt="${arrival.type}" class="bus-icon" />`;
+        } else {
+          arrivalsHTML += `<span class="bus-type-badge">${arrival.type}</span>`;
+        }
         arrivalsHTML += '</div></div>';
 
         startCountdown(timeId, targetTime, sizeClass);
@@ -437,3 +451,4 @@ function startCountdown(elementId, targetTime, sizeClass) {
   }, 1000); // Update every second
   activeTimers.push(countdownInterval);
 }
+
